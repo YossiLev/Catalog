@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Documentation Catalog</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ SIDEBAR ═══════════════ -->
+  <aside id="sidebar">
+    <div id="sidebar-header">
+      <div id="logo-mark">⬡</div>
+      <div id="logo-text">
+        <span class="logo-title">Lab Docs</span>
+        <span class="logo-sub">Documentation Catalog</span>
+      </div>
+    </div>
+
+    <div id="search-wrap">
+      <input type="text" id="search-input" placeholder="Search docs…" autocomplete="off" />
+      <span id="search-icon">⌕</span>
+      <button id="search-clear" title="Clear search">✕</button>
+    </div>
+
+    <nav id="toc-nav">
+      <!-- Filled dynamically -->
+    </nav>
+
+    <div id="sidebar-footer">
+      <div id="sheet-status">
+        <span id="status-dot"></span>
+        <span id="status-text">Loading…</span>
+      </div>
+      <button id="btn-reload" title="Reload data from Google Sheets">↺ Reload</button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════ TOGGLE SIDEBAR ════════ -->
+  <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
+
+  <!-- ═══════════════════════════════════════ MAIN ══════════════════ -->
+  <main id="main">
+    <header id="top-bar">
+      <div id="breadcrumb"></div>
+      <div id="top-actions">
+        <button id="btn-expand-all" title="Expand all sections">⊞ Expand all</button>
+        <button id="btn-collapse-all" title="Collapse all sections">⊟ Collapse all</button>
+        <button id="btn-theme" title="Toggle dark/light mode">◑</button>
+      </div>
+    </header>
+
+    <div id="loading-overlay">
+      <div id="loading-spinner"></div>
+      <p>Loading catalog from Google Sheets…</p>
+    </div>
+
+    <div id="error-banner" hidden>
+      <strong>⚠ Could not load data.</strong>
+      <span id="error-detail"></span>
+      <br/><small>Make sure the Google Sheet is shared as "Anyone with link can view" and the SHEET_ID is set in <code>config.js</code>.</small>
+    </div>
+
+    <div id="catalog-root">
+      <!-- Catalog sections rendered here -->
+    </div>
+
+    <div id="search-results-panel" hidden>
+      <h2 class="sr-heading">Search results for <span id="sr-query"></span></h2>
+      <div id="search-results-list"></div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="parser.js"></script>
+  <script src="renderer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
