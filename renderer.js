@@ -27,6 +27,26 @@ const Renderer = (() => {
       // }
       return wrap;
     },
+    
+    // title | author | [picture url]
+    book(params) {
+      const [title, author, pictureUrl] = params;
+      const wrap = el("div", "item item-book");
+
+      wrap.appendChild(iconEl("📖"));
+      const f = el("div", "item-type");
+      const t = el("div", "item-title"); t.textContent = title;
+      f.appendChild(t);
+      const a = el("div", "item-author"); a.textContent = author;
+      f.appendChild(a);
+      wrap.appendChild(f);
+      const i = el("img", "item-image");
+      i.src = pictureUrl || "";
+      i.alt = title || "Book";
+      wrap.appendChild(i);
+
+      return wrap;
+    },
 
     // link  | label | url | [description]
     link(params) {
