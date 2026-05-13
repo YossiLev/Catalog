@@ -10,6 +10,24 @@ const Renderer = (() => {
 
   const itemRenderers = {
 
+    // link | [title]
+    youtube(params) {
+      const [url, title] = params;
+      const wrap = el("div", "item item-link");
+      const a = el("a", "item-link-anchor");
+      a.href = url || "#";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = title || url || "Link";
+      wrap.appendChild(iconEl("📺"));
+      wrap.appendChild(a);
+      // if (title) {
+      //   const d = el("span", "item-desc"); d.textContent = title;
+      //   wrap.appendChild(d);
+      // }
+      return wrap;
+    },
+
     // link  | label | url | [description]
     link(params) {
       const [label, url, desc] = params;
