@@ -82,24 +82,17 @@ const Parser = (() => {
     const firstNonempty = cols.find(v => v.trim() !== "");
     if (firstNonempty && firstNonempty.trim().startsWith("#")) return null;
 
-    // Heading levels
-    if (c(0) !== "" && c(1) === "" && c(2) === "" && c(3) === "") {
-      return { kind: "h1", text: c(0) };
-    }
-    if (c(0) === "" && c(1) !== "" && c(2) === "" && c(3) === "") {
-      return { kind: "h2", text: c(1) };
-    }
-    if (c(0) === "" && c(1) === "" && c(2) !== "" && c(3) === "") {
-      return { kind: "h3", text: c(2) };
+    // Heading levels (they must have only one field populated, in the correct column)
+    if (cols.filter(v => v.trim() !== "").length === 1) {
+      let filledColIndex = cols.findIndex(v => v.trim() !== "");
+      return { kind: `h${filledColIndex + 1}`, text: c(filledColIndex) };
     }
 
-    // Item row — col3 is type, rest are params
-    const type = c(3).toLowerCase();
+    // data rows must have a "type" in first non empty column
+    const data = cols.filter(v => v.trim() !== "");
+    type = data[0].toLowerCase();
     if (type !== "") {
-      const params = cols.slice(4).map(v => v.trim()).filter(v => v !== "");
-      // Also capture columns 0-2 as context labels (some sheets mix heading + item on same row)
-      const label0 = c(0), label1 = c(1), label2 = c(2);
-      return { kind: "item", type, params, label0, label1, label2 };
+      return { kind: "item", type, params: data.slice(1), label0: cols[1], label1: cols[2], label2: cols[3] };
     }
 
     // Fallback: treat as plain text note

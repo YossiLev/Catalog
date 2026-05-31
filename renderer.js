@@ -50,17 +50,17 @@ const Renderer = (() => {
 
     // link  | label | url | [description]
     link(params) {
-      const [label, url, desc] = params;
+      const [url, desc, text] = params;
       const wrap = el("div", "item item-link");
       const a = el("a", "item-link-anchor");
       a.href = url || "#";
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.textContent = label || url || "Link";
-      wrap.appendChild(iconEl("🔗"));
+      a.textContent = desc || url || "Link";
+      //wrap.appendChild(iconEl("🔗"));
       wrap.appendChild(a);
-      if (desc) {
-        const d = el("span", "item-desc"); d.textContent = desc;
+      if (text) {
+        const d = el("span", "item-desc"); d.textContent = text;
         wrap.appendChild(d);
       }
       return wrap;
@@ -216,6 +216,7 @@ const Renderer = (() => {
         case "h1": container.appendChild(renderH1(node)); break;
         case "h2": container.appendChild(renderH2(node)); break;
         case "h3": container.appendChild(renderH3(node)); break;
+        case "h4": container.appendChild(renderH4(node)); break;
         case "item": container.appendChild(renderItem(node)); break;
         case "note": container.appendChild(renderNote(node)); break;
       }
@@ -302,6 +303,36 @@ const Renderer = (() => {
     const body = el("div", "section-body");
     body.id = node.id + "-body";
     renderTree(node.children || [], body, 3);
+    section.appendChild(body);
+
+    toggle.addEventListener("click", () => {
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      toggle.querySelector(".toggle-chevron").textContent = !expanded ? "▾" : "▸";
+      body.classList.toggle("collapsed", expanded);
+    });
+
+    return section;
+  }
+
+  function renderH4(node) {
+    const section = el("section", "section-h3");
+    section.id = node.id;
+
+    const hdr = el("div", "section-h3-header");
+    const toggle = el("button", "section-toggle");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-controls", node.id + "-body");
+    toggle.innerHTML = `<span class="toggle-chevron">▾</span>`;
+
+    const h = el("h4"); h.textContent = node.text;
+    hdr.appendChild(toggle);
+    hdr.appendChild(h);
+    section.appendChild(hdr);
+
+    const body = el("div", "section-body");
+    body.id = node.id + "-body";
+    renderTree(node.children || [], body, 4);
     section.appendChild(body);
 
     toggle.addEventListener("click", () => {
