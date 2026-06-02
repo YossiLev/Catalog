@@ -571,6 +571,11 @@ code, pre { font-family: 'DM Mono', monospace; font-size: .82rem; }
   align-items: flex-start;
   max-height: 150px;
 }
+.item-book-image {
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 70px;
+}
 .item-image details { width: 100%; }
 .item-image summary { cursor: pointer; display: flex; align-items: center; gap: 8px; }
 .item-image img { max-width: 100%; margin-top: 8px; border-radius: 4px; border: 1px solid var(--border); }

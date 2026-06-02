@@ -12,19 +12,22 @@ const Renderer = (() => {
 
     // link | [title]
     youtube(params) {
-      const [url, title] = params;
+      const [url, title, description] = params;
       const wrap = el("div", "item item-link");
       const a = el("a", "item-link-anchor");
       a.href = url || "#";
       a.target = "_blank";
       a.rel = "noopener noreferrer";
       a.textContent = title || url || "Link";
-      wrap.appendChild(iconEl("📺"));
-      wrap.appendChild(a);
-      // if (title) {
-      //   const d = el("span", "item-desc"); d.textContent = title;
-      //   wrap.appendChild(d);
-      // }
+      wrap.appendChild(iconEl("🎞️"));
+      const f = el("div", "item-type");
+      f.appendChild(a);
+      if (description) {
+        const d = el("span", "item-desc"); d.textContent = description;
+        f.appendChild(d);
+      }
+      wrap.appendChild(f);
+
       return wrap;
     },
     
@@ -33,17 +36,20 @@ const Renderer = (() => {
       const [title, author, pictureUrl] = params;
       const wrap = el("div", "item item-book");
 
-      wrap.appendChild(iconEl("📖"));
+      if (pictureUrl) {
+        const img = el("img", "item-book-image");
+        img.src = pictureUrl;
+        img.alt = title || "Book cover";
+        wrap.appendChild(img);
+      } else {
+        wrap.appendChild(iconEl("📖"));
+      }
       const f = el("div", "item-type");
       const t = el("div", "item-title"); t.textContent = title;
       f.appendChild(t);
       const a = el("div", "item-author"); a.textContent = author;
       f.appendChild(a);
       wrap.appendChild(f);
-      const i = el("img", "item-image");
-      i.src = pictureUrl || "";
-      i.alt = title || "Book";
-      wrap.appendChild(i);
 
       return wrap;
     },
